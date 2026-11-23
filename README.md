@@ -58,8 +58,6 @@ el repositorio: `EFL_BASE_URL`, `EFL_USER`, `EFL_PASS`,
 - URL real del entorno DEV y datos de prueba de DEV (hoy el flujo
   trae valores del cliente tutorial como punto de partida).
 - Confirmar la hora de la ejecución programada entre semana.
-- Validar los selectores del avatar en DEV: el avatar no tiene texto
-  ni nombre accesible, así que el flujo lo pulsa por coordenadas
-  calculadas desde el encabezado en cada corrida (técnica verificada
-  en el POC). Si cambia la cabecera, ese es el primer punto a
-  ajustar.
+- Validar el elemento `motum-avatar` en DEV: el flujo abre el menú
+  del usuario pulsando ese elemento justo después del login. Si
+  cambia el encabezado, ese es el primer punto a ajustar.
