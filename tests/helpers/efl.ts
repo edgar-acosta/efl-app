@@ -92,18 +92,13 @@ export async function login(page: Page, config: EflConfig) {
 }
 
 /**
- * Abre el menú del usuario desde el avatar circular de arriba a la
- * derecha. El avatar no tiene texto ni nombre accesible (verificado
- * en el POC), así que se pulsa por coordenadas calculadas desde el
- * encabezado en el momento de la corrida, nunca con coordenadas fijas.
+ * Abre el menú del usuario pulsando el elemento `motum-avatar` de la
+ * pantalla home, justo después del login exitoso.
  */
 export async function abrirMenuUsuario(page: Page, config: EflConfig) {
-  const header = page.locator('header').first();
-  const box = await header.boundingBox();
-  if (!box) {
-    throw new Error('No se encontró el encabezado para localizar el avatar.');
-  }
-  await page.mouse.click(box.x + box.width - 32, box.y + box.height / 2);
+  const avatar = page.locator('motum-avatar').first();
+  await avatar.waitFor({ state: 'visible', timeout: 10_000 });
+  await avatar.click();
 
   // El menú desplegado muestra el correo de la cuenta.
   await expect(page.getByText(config.user, { exact: false }).first()).toBeVisible({
