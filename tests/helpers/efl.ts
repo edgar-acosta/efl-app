@@ -107,17 +107,18 @@ export async function abrirMenuUsuario(page: Page, config: EflConfig) {
 }
 
 /**
- * Abre la sección "Viendo como". Si no está visible, pulsa el caret
- * pequeño (~14×14 px) a la derecha del nombre en el menú abierto.
+ * Abre la sección "Viendo como". Si no está visible, pulsa el icono
+ * del menú (span #vdown) cuyo <i> lleva la clase rotate-down.
  */
 export async function abrirViendoComo(page: Page) {
   const viendoComo = page.getByText(/viendo como/i);
   if ((await viendoComo.count()) > 0 && (await viendoComo.first().isVisible())) {
     return;
   }
-  // Caret: icono <i>/<svg> al borde derecho de la fila del nombre.
-  const caret = page.locator('header i, header svg').last();
-  await caret.click({ timeout: 5_000 });
+  // Caret: icono <i> con clase rotate-down dentro del span #vdown.
+  const caret = page.locator('#vdown i.rotate-down');
+  await caret.waitFor({ state: 'visible', timeout: 5_000 });
+  await caret.click();
   await expect(page.getByText(/viendo como/i)).toBeVisible({ timeout: 5_000 });
 }
 
